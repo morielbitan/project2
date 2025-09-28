@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="./loginsignup.css" />
+  </head>
+
+  <body>
+    <div>
+      <form>
+        Enter username:
+        <input
+          type="text"
+          id="login-username"
+          minlength="2"
+          maxlength="20"
+          required
+        />
+        <br />
+        <br />
+        enter password:
+        <input type="password" id="login-password" required />
+        <br />
+
+        <input type="submit" value="continue" id="btn" />
+      </form>
+    </div>
+
+    <script>
+      const btn = document.getElementById("btn");
+      function login() {
+        const username = document.getElementById("login-username").value;
+        const password = document.getElementById("login-password").value;
+
+        const savedUser = localStorage.getItem("user");
+        if (!savedUser) {
+          alert("No user found. Please sign up first.");
+          return;
+        }
+
+        const user = JSON.parse(savedUser);
+
+        if (username === user.username && password === user.password) {
+          alert("Login successful! Welcome " + user.username);
+        } else {
+          alert("Invalid username or password!");
+        }
+      }
+      btn.addEventListener("click", login);
+    </script>
+  </body>
+</html>
