@@ -4,7 +4,7 @@ const boxes = [
           src: "imgs/ball-of-basketball.png",
           link: "https://basketball-stars.io/",
         },
-        { src: "imgs/snake.png", link: "https://snake.io/" },
+        { src: "imgs/snake.png", link: "https://snake.io/" },{ src:"imgs/memory.png", link: "game.html"}
       ];
 
       let currentIndex = 0;
