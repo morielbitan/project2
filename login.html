@@ -5,47 +5,28 @@
   </head>
 
   <body>
-    <div>
-      <form>
-        Enter username:
-        <input
-          type="text"
-          id="login-username"
-          minlength="2"
-          maxlength="20"
-          required
-        />
-        <br />
-        <br />
-        enter password:
-        <input type="password" id="login-password" required />
-        <br />
+    <div class="container">
+      <div class="box">
+        <form>
+          Enter username:
+          <input
+            type="text"
+            id="login-username"
+            minlength="2"
+            maxlength="20"
+            required
+          />
+          <br />
+          <br />
+          enter password:
+          <input type="password" id="login-password" required />
+          <br />
 
-        <input type="submit" value="continue" id="btn" />
-      </form>
+          <input value="login" id="btn" />
+          <input value="sign up" id="btn2" />
+        </form>
+      </div>
     </div>
-
-    <script>
-      const btn = document.getElementById("btn");
-      function login() {
-        const username = document.getElementById("login-username").value;
-        const password = document.getElementById("login-password").value;
-
-        const savedUser = localStorage.getItem("user");
-        if (!savedUser) {
-          alert("No user found. Please sign up first.");
-          return;
-        }
-
-        const user = JSON.parse(savedUser);
-
-        if (username === user.username && password === user.password) {
-          alert("Login successful! Welcome " + user.username);
-        } else {
-          alert("Invalid username or password!");
-        }
-      }
-      btn.addEventListener("click", login);
-    </script>
   </body>
+  <script src="./login.js"></script>
 </html>
