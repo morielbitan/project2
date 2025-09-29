@@ -15,7 +15,21 @@ const numbers = ["zero", "one", "two", "three", "four", "five", "six", "seven", 
   "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
   "sixteen", "seventeen", "eighteen", "nineteen", "twenty"];
 
+const sounds = [new Audio('sounds/lookout.mp3'),
+    new Audio('sounds/little.mp3'),
+    new Audio('sounds/small.wav'),
+    new Audio('sounds/strange.mp3'),
+    new Audio('sounds/tiny.mp3')
+];
+
 let score = 0;
+
+// a function that starts playing the sound- according to the creature :)
+function playSound(card) {
+    let index = numbers.indexOf((card.children[1].className).split(" ")[1]);
+    const audio = sounds[index];
+    audio.play();
+}
 
 // a function that returns a back div:
 function backDiv() {
@@ -32,7 +46,7 @@ function frontDiv2(i) {
     return ('<div class="front ' + numbers[i] + '"><img src="' + photoArr2[i] +'" alt="a card in the game"></div>')
 }
 
-// a function that returns a list of all cards (ordered):
+// a function that returns a array of all cards (ordered):
 function cardsOl() {
     let cards = [];
     for (let i = 0; i < photoArr1.length; i++) {
@@ -65,9 +79,10 @@ function cardsToContainer(theCards) {
 
 // event listener function- (when click-) add the card a class- .flip:
 function flipCard(event) {
-    if(clicks < 2 && clickAgain) {
+    const card = event.currentTarget;
+    if(clicks < 2 && clickAgain && card !== firstCard && !(card.classList.contains("matched"))) {
         clicks++;
-        const card = event.currentTarget;
+        playSound(card);
         card.classList.toggle("flip"); //if it has it - it delets it, if it doesnt- it adds it.
 
         if (count === 0) {
@@ -85,6 +100,15 @@ function flipCard(event) {
                     firstCard.classList.toggle("flip");
                     clickAgain = true;
                 }, 800);
+                
+                classShake(card);
+                classShake(firstCard);
+
+                setTimeout(() => { 
+                    classShake(card);
+                    classShake(firstCard);
+                }, 500);
+
             }
             else
                 clickAgain = true;
@@ -100,6 +124,8 @@ function areSame(card) {
         score += 5;
         updateScore();
         same = true;
+        card.classList.add("matched");
+        firstCard.classList.add("matched");
     }
     count = 0;
     openC = [];
@@ -109,6 +135,11 @@ function areSame(card) {
 // function updates the score in the html:
 function updateScore() {
     const scoreEl = document.getElementById("score").innerHTML = ("Score: " + score);
+}
+
+// function adds or delets a card class - .shake, so it will shake whan wrong cards:
+function classShake(card) {
+    card.classList.toggle("shake");
 }
 
 
