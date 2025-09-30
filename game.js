@@ -77,10 +77,16 @@ function cardsToContainer(theCards) {
     }
 }
 
+// a function that checks if a click should work: 
+function letClickWork(card) {
+    let bool = clicks < 2 && clickAgain && !(card.classList.contains("matched")) && play;
+    return bool;
+}
+
 // event listener function- (when click-) add the card a class- .flip:
 function flipCard(event) {
     const card = event.currentTarget;
-    if(clicks < 2 && clickAgain && card !== firstCard && !(card.classList.contains("matched"))) {
+    if (letClickWork(card)){  
         clicks++;
         playSound(card);
         card.classList.toggle("flip"); //if it has it - it delets it, if it doesnt- it adds it.
@@ -89,7 +95,6 @@ function flipCard(event) {
             firstCard = card;
             openC.push((card.children[1].className).split(" ")[1]);
             count++;
-            alert("sup");
         }
         else {
             clickAgain = false;
@@ -111,8 +116,13 @@ function flipCard(event) {
                 }, 500);
 
             }
-            else
+            else {
+                if (score === 25) {
+                    document.getElementById("win").innerHTML = "YOU WON !!!";
+                    seconds = 0;
+                }
                 clickAgain = true;
+            }
             clicks = 0;
         }
     }
@@ -123,19 +133,14 @@ function areSame(card) {
     let same = false;
     if (openC[0] === openC[1]) {
         score += 5;
-        updateScore();
         same = true;
         card.classList.add("matched");
         firstCard.classList.add("matched");
+
     }
     count = 0;
     openC = [];
     return same;
-}
-
-// function updates the score in the html:
-function updateScore() {
-    const scoreEl = document.getElementById("score").innerHTML = ("Score: " + score);
 }
 
 // function adds or delets a card class - .shake, so it will shake whan wrong cards:
@@ -144,9 +149,64 @@ function classShake(card) {
 }
 
 
+// TIMER:
+function displaytime(){
+    document.getElementById('txt').innerHTML= seconds;
+}
+function runtime(){
+    if (button.innerHTML === "START AGAIN")
+        startAgain();
+    if(!isRunning){
+        isRunning=true;
+        document.getElementById('startBtn').innerHTML="stop"
+        startime()
+        play = true;
+
+    }else{
+        clearTimeout(timeoutId);
+        isRunning=false;
+        document.getElementById('startBtn').innerHTML="continue"
+        play = false;
+    }
+}
+
+function startime(){
+    if (seconds<=0){
+        if (score !== 25)
+            document.getElementById('txt').innerHTML= "GAME OVER";
+        isRunning=false;
+        play = false;
+        seconds=20;
+        button.innerHTML = "START AGAIN";
+        return;
+    }
+
+
+    
+    displaytime();
+    timeoutId=setTimeout(startime,1000);
+    seconds--;
+    function checktime(i){
+    return i<10? "0" + i : i;
+}
+}
+
+function startAgain() {
+    window.location.reload();
+}
+
+
 // --- MAIN ---
 let count = 0, openC = [], clicks = 0;
 let firstCard, clickAgain = true;
+
+const button = document.getElementById('startBtn');
+let seconds = 20;
+let timeoutId = null; // to store setTimeout reference
+let isRunning = false;
+let play = false;
+
+button.addEventListener('click', runtime);
 
 // make the cards list, shuffle it & put it on the screen:
 let theCards = shuffle(cardsOl());
