@@ -1,3 +1,26 @@
+body {
+  background-color: rgb(0, 52, 112);
+}
+
+#home {
+  width: 20px;
+  height: 20px;
+}
+
+#logo {
+  text-align: center;
+  color: white;
+}
+
+#win {
+  color: rgb(20, 145, 20);
+  font-weight: bold;
+}
+
+#txt {
+  color: white;
+}
+
 .card {
   display: inline-block;
   padding: 3px;
@@ -15,6 +38,10 @@ img {
   border-color: #85c0ff;
   box-shadow: 0 0 10px rgba(126, 188, 255, 0.5);
   transition: transform 0.2s ease, border-color 0.2s, box-shadow 0.2s;
+}
+.card:not(hover) {
+  transform: scale(1);
+  transition: 0.2s;
 }
 
 .front {

@@ -150,8 +150,16 @@ function classShake(card) {
 
 
 // TIMER:
+function checktime(i){
+    return i<10? "0" + i : i;
+}
+
+function formatTime(sec, ms) {
+    return checktime(sec) + "." + String(ms).padStart(2, "0");
+}
+
 function displaytime(){
-    document.getElementById('txt').innerHTML= seconds;
+    document.getElementById('txt').innerHTML = "Time left: " + formatTime(seconds,milliseconds);
 }
 function runtime(){
     if (button.innerHTML === "START AGAIN")
@@ -180,15 +188,15 @@ function startime(){
         button.innerHTML = "START AGAIN";
         return;
     }
-
-
-    
     displaytime();
-    timeoutId=setTimeout(startime,1000);
-    seconds--;
-    function checktime(i){
-    return i<10? "0" + i : i;
-}
+
+    milliseconds -= 1;
+    if (milliseconds < 0) {
+        milliseconds = 99;
+        seconds -= 1;
+    }
+
+    timeoutId = setTimeout(startime,10);
 }
 
 function startAgain() {
@@ -202,9 +210,16 @@ let firstCard, clickAgain = true;
 
 const button = document.getElementById('startBtn');
 let seconds = 20;
+let milliseconds=0;
 let timeoutId = null; // to store setTimeout reference
 let isRunning = false;
 let play = false;
+
+const bgMusic = new Audio('sounds/bg.mp3');
+bgMusic.loop = true; 
+
+displaytime();
+
 
 button.addEventListener('click', runtime);
 
